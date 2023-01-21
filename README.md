@@ -1,3 +1,3 @@
 # Exercises C language
-folder with c programming studies
+repository with c exercises resolutions
 Inicio de tudo em 27/05/2022
