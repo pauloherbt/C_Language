@@ -11,13 +11,15 @@ int main(void)
         L=lst_insere(L,i+1);
         L2=lst_insere(L2,(i+6));
     }
-    lst_imprime(L);
-    lst_imprime(L2);
-    lst_imprime(lst_conc(L,L2));
-    puts("pos funciton");
-    lst_imprime(L);
-    puts("l2");
-    lst_imprime(L2);
+    //lst_imprime(L);
+    //lst_imprime(L2);
+    Lista* l3=lst_conc(L,L2);
+    lst_imprime(l3);
+    //puts("pos funciton");
+    //lst_remove(L,5);
+    //lst_imprime(l3);
+    //puts("l2");
+    //lst_imprime(L2);
     /*printf("compriemnto: %d\n", comprimento(L));
     printf("qntd de nos menores q 11: %d\n",menores(L, 6));
     printf("A soma dos elementos eh %d\n", soma(L));

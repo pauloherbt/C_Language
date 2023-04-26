@@ -20,6 +20,7 @@ int menores(Lista* l, int n);
 int soma(Lista* l);
 int primos(Lista* l);
 Lista* lst_conc(Lista* l1, Lista* l2);
+Lista* insere_rec(Lista* l_resultante,Lista* l);
 
 //recursivas
 void lst_imprime_rec(Lista* l);

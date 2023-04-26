@@ -132,12 +132,36 @@ int primos(Lista* l){
 }
 
 Lista* lst_conc(Lista* l1, Lista* l2){
-    Lista* l_resultante=l1;
-    Lista* laux=l_resultante;
-    while(laux->prox!=NULL){ //percorre ate achar o ultimo elem de l1
-        laux=laux->prox;    
+    Lista* l_resultante=lst_cria();
+    Lista* laux=l1;
+    Lista* lfim=NULL;
+    while (laux!=NULL)
+    {
+        if(l_resultante==NULL){
+            l_resultante=lst_insere(l_resultante,laux->info);
+            lfim=l_resultante;
+        }
+        else{
+            lfim->prox=lst_insere(lfim->prox,laux->info);
+            lfim=lfim->prox;
+        }
+        laux=laux->prox;
     }
-    laux->prox=l2;
+    laux=l2;
+    while (laux!=NULL)
+    {
+        if(l_resultante==NULL){
+            l_resultante=lst_insere(l_resultante,laux->info);
+            lfim=l_resultante;
+        }
+        else{
+            lfim->prox=lst_insere(lfim->prox,laux->info);
+            lfim=lfim->prox;
+        }
+        laux=laux->prox;
+    }
+
+
     return l_resultante;
 }
 
