@@ -34,11 +34,14 @@ Lista* lst_busca(Lista* l, int info){
 }
 
  void lst_imprime(Lista* l){
-    Lista* laux=l;
-    while(laux!=NULL){
-        printf("Info: %d\n", laux->info);
-        laux=laux->prox;
+    if(!lst_vazia(l)){
+        Lista* laux=l;
+        while(laux!=NULL){
+            printf("Info: %d\n", laux->info);
+            laux=laux->prox;
+        }
     }
+    
  }
 
  Lista* lst_remove(Lista* l, int info){
@@ -134,7 +137,7 @@ int primos(Lista* l){
 Lista* lst_conc(Lista* l1, Lista* l2){
     Lista* l_resultante=lst_cria();
     Lista* laux=l1;
-    Lista* lfim=NULL;
+    Lista* lfim=NULL; //aponta para o fim da lista
     while (laux!=NULL)
     {
         if(l_resultante==NULL){
@@ -164,6 +167,19 @@ Lista* lst_conc(Lista* l1, Lista* l2){
 
     return l_resultante;
 }
+Lista* lst_diferenca(Lista* l1, Lista* l2){
+    Lista* laux1=l1;
+    for(Lista* laux2=l2;laux2!=NULL;laux2=laux2->prox){
+        for (Lista* laux1 =l1; laux1!=NULL; laux1=laux1->prox){
+            if(laux1->info==laux2->info){
+                l1=lst_remove(l1,laux1->info);
+                break;
+            }
+        }
+    }
+    return l1;
+}
+
 
 //recursivas
 void lst_imprime_rec(Lista* l){
@@ -174,9 +190,9 @@ void lst_imprime_rec(Lista* l){
     
 }
 
-void lst_imprime_inv(Lista* l){
+void lst_imprime_invertida_rec (Lista* l){
     if(!lst_vazia(l)){
-        lst_imprime_inv(l->prox);
+        lst_imprime_invertida_rec(l->prox);
         printf("info: %d\n",l->info);
     }
 }

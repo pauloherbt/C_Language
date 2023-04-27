@@ -16,15 +16,19 @@ void lst_libera(Lista* l);
 
 //questoes
 int comprimento(Lista* l);
+
 int menores(Lista* l, int n);
+
 int soma(Lista* l);
+
 int primos(Lista* l);
 Lista* lst_conc(Lista* l1, Lista* l2);
-Lista* insere_rec(Lista* l_resultante,Lista* l);
+
+Lista* lst_diferenca(Lista* l1, Lista* l2);
 
 //recursivas
 void lst_imprime_rec(Lista* l);
 
-void lst_imprime_inv(Lista* l);
+void lst_imprime_invertida_rec(Lista* l);
 
 Lista* lst_remove_rec(Lista* l, int info);
