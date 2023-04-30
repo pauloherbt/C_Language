@@ -12,3 +12,8 @@ int pilha_pop(Pilha* p);
 void pilha_imprime(Pilha* p);
 
 void pilha_libera(Pilha* p);
+
+//questoes
+int topo(Pilha* p);
+int impares(Pilha* p);
+Pilha* empilha_pares(Pilha* p1, Pilha* p2);
