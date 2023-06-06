@@ -14,3 +14,5 @@ ArvB* arvb_remove(ArvB *a, int c);
 int arv_altura(ArvB* a);
 int folhas_primos(ArvB* a);
 int dois_filhos(ArvB* a);
+int nos_igual_altura(ArvB* a);
+int iguais(ArvB* a, ArvB* b);

@@ -126,3 +126,17 @@ int dois_filhos(ArvB* a){
         return dois_filhos(a->esq)+dois_filhos(a->dir);
     return 0;  
 }
+int nos_igual_altura(ArvB* a){
+    if(arvb_vazia(a)){
+        return 0;
+    }
+    int sae=nos_igual_altura(a->esq);
+    int sad= nos_igual_altura(a->dir);
+    if(a->esq!=NULL&&a->dir!=NULL){
+        if(arv_altura(a->esq)==arv_altura(a->dir)){
+            return 1+sae+sad;
+        }
+    }
+    return sae+sad;
+}
+

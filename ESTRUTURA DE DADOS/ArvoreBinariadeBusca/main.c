@@ -13,9 +13,8 @@ int main(void){
     printf("Qtd folhas primos %d\n",folhas_primos(arv1));
     printf("Altura da árvore %d\n",arv_altura(arv1));
     printf("Qtd de nós dois filhos %d\n",dois_filhos(arv1));
-    
-   /*printf("Nós igual altura %d\n",nos_igual_altura(arv1));
-    ArvB* arv2 = arvb_cria_vazia();
+    printf("Nós igual altura %d\n",nos_igual_altura(arv1));
+    /*ArvB* arv2 = arvb_cria_vazia();
     arv2=arvb_insere(arv2,5);
     arv2=arvb_insere(arv2,6);
     arv2=arvb_insere(arv2,11);
