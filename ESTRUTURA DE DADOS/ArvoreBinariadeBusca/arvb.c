@@ -50,6 +50,14 @@ ArvB* arvb_busca(ArvB* a, int c){
     else
         return a;    
 }
+void arvb_libera(ArvB* a){
+    if(!arvb_vazia(a)){
+        arvb_libera(a->esq);
+        arvb_libera(a->dir);
+        free(a);
+    }
+
+}
 ArvB* arvb_remove(ArvB* a, int c){
     if(arvb_vazia(a))
         return NULL;
@@ -116,6 +124,7 @@ int folhas_primos(ArvB* a){
     else
         return folhas_primos(a->esq)+ folhas_primos(a->dir);
 }
+
 int dois_filhos(ArvB* a){
     if(arvb_vazia(a))
         return 0;
@@ -126,6 +135,7 @@ int dois_filhos(ArvB* a){
         return dois_filhos(a->esq)+dois_filhos(a->dir);
     return 0;  
 }
+
 int nos_igual_altura(ArvB* a){
     if(arvb_vazia(a)){
         return 0;
@@ -139,4 +149,13 @@ int nos_igual_altura(ArvB* a){
     }
     return sae+sad;
 }
+
+int iguais(ArvB* a, ArvB* b){
+    if(arvb_vazia(a)&&arvb_vazia(b)){
+        return 1;
+    }
+    if(arvb_vazia(a)||arvb_vazia(b))
+       return 0;
+    return a->info==b->info&&(iguais(a->esq,b->esq)&&iguais(a->dir,b->dir));
+}    
 
