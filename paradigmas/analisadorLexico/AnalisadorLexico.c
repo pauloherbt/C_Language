@@ -19,7 +19,6 @@ void getNonComments();
 /* Classes de caracteres */ 
 #define LETTER 0 
 #define DIGIT 1
-#define KEYWORD 98
 #define UNKNOWN 99
 /* Códigos de tokens */ 
 #define INT_LIT 10 
@@ -33,6 +32,7 @@ void getNonComments();
 #define RIGHT_PAREN 26
 #define IF_ONLY_OP 27
 #define NOT_OP 28
+#define UNKNOW_TOKEN 29
 
 int main(){
     in_fp=fopen("entrada.in","r");
@@ -47,7 +47,7 @@ int main(){
         
     }
 }
-int lookup(char ch){
+int lookup(int ch){
     switch (ch)
     {
     case '(':
@@ -69,10 +69,41 @@ int lookup(char ch){
     case '~':
         addChar();
         nextToken = NOT_OP;
-        break;                                       
+        break;
+    case '-':
+        addChar();
+        getChar();
+        if(nextChar =='>'){
+            addChar();
+            nextToken=IMPLY_OP;
+            break;
+        }
+        nextToken = UNKNOW_TOKEN;
+        return 0;
+    case '<':
+        addChar();
+        getChar();
+        if(nextChar=='-'){
+            char nextCharaux = getc(in_fp);
+            if(nextCharaux=='>'){
+                addChar();
+                ungetc(nextCharaux,in_fp);
+                getChar();
+                addChar();
+                nextToken = IF_ONLY_OP;
+                break;
+            }
+             ungetc(nextCharaux,in_fp);   
+        }
+        //printf("char: %c\n",nextChar);
+        nextToken = UNKNOW_TOKEN;
+        return 0;
     default:
         addChar();
-        nextToken = EOF;
+        if(nextChar!=EOF)
+            nextToken = UNKNOW_TOKEN;
+        else    
+            nextToken = EOF;
         break;
     }
 }
@@ -90,9 +121,7 @@ void getChar(){ //le o prox char e atualiza a sua classe
         if(isalpha(nextChar))
             charClass=LETTER;
         else if (isdigit(nextChar))
-            charClass = DIGIT;
-        else if(nextChar=='-'||nextChar=='>'||nextChar=='<')
-            charClass = KEYWORD;    
+            charClass = DIGIT;   
         else
             charClass = UNKNOWN;    
     else
@@ -128,22 +157,10 @@ int lex(){
         }
         nextToken = INT_LIT;
         break;
-    case KEYWORD:
-        addChar();
-        getChar();
-        while(charClass==KEYWORD){
-            addChar();
-            getChar();
-        }
-        if(strcmp(lexeme,"->")==0)
-        nextToken = IMPLY_OP;
-        if(strcmp(lexeme,"<->")==0)
-        nextToken = IF_ONLY_OP;
-        break;
-
     case UNKNOWN:
-        lookup(nextChar);
-        getChar();
+    //printf("char no lookup: %c\n", nextChar);
+        if(lookup(nextChar))
+            getChar();
         break;   
     case EOF:
         nextToken=EOF;
@@ -157,7 +174,10 @@ int lex(){
         nextToken = TRUE_OP;
     if(strcmp(lexeme,"False")==0)
         nextToken = FALSE_OP;
-    printf("Proximo token: %d, Proximo lexema: %s\n",nextToken,lexeme);
+    if(nextToken==UNKNOW_TOKEN)
+        printf("Lexema: %s nao reconhecido\n", lexeme);
+    else
+        printf("Proximo token: %d, Proximo lexema: %s\n",nextToken,lexeme);
     return nextToken;
 }
 void getNonComments(){
@@ -168,10 +188,8 @@ void getNonComments(){
             while(next!='\n' && next!= EOF){
                 next=getc(in_fp);
             }
-            //ungetc(next,in_fp);
             getChar();
-            //printf("valor do nextChar: %c", nextChar);
-            getNonComments();
+            getNonComments();//chamada recursiva para verificar se a prox linha tem //
         }
         else{
             ungetc(next,in_fp);
