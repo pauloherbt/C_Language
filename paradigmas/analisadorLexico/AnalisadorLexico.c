@@ -47,63 +47,64 @@ int main(){
         
     }
 }
-int lookup(int ch){
+void addAndGetNextChar(){
+    addChar();
+    getChar();
+}
+int lookup(int ch){ //responsavel por identificar o token
     switch (ch)
     {
     case '(':
-        addChar();
+        addAndGetNextChar();
         nextToken = LEFT_PAREN;
         break;
     case ')':
-        addChar();
+        addAndGetNextChar();
         nextToken = RIGHT_PAREN;
         break;
     case '+':
-        addChar();
+        addAndGetNextChar();
         nextToken = OR_OP;
         break;
     case '*':
-        addChar();
+        addAndGetNextChar();
         nextToken = AND_OP;
         break;
     case '~':
-        addChar();
+        addAndGetNextChar();;
         nextToken = NOT_OP;
         break;
     case '-':
-        addChar();
-        getChar();
+        addAndGetNextChar();
         if(nextChar =='>'){
-            addChar();
+            addAndGetNextChar();
             nextToken=IMPLY_OP;
             break;
         }
         nextToken = UNKNOW_TOKEN;
-        return 0;
+        break;
     case '<':
-        addChar();
-        getChar();
+        addAndGetNextChar();
         if(nextChar=='-'){
             char nextCharaux = getc(in_fp);
             if(nextCharaux=='>'){
                 addChar();
                 ungetc(nextCharaux,in_fp);
                 getChar();
-                addChar();
+                addAndGetNextChar();
                 nextToken = IF_ONLY_OP;
                 break;
             }
              ungetc(nextCharaux,in_fp);   
         }
-        //printf("char: %c\n",nextChar);
         nextToken = UNKNOW_TOKEN;
-        return 0;
+        break;
     default:
-        addChar();
         if(nextChar!=EOF)
             nextToken = UNKNOW_TOKEN;
         else    
             nextToken = EOF;
+        addAndGetNextChar();
         break;
     }
 }
@@ -113,7 +114,7 @@ void addChar(){ //formar o lexema
         lexeme[lexLen]= 0;
     }
     else
-        printf("Lexema mt grande!/n");
+        printf("Lexema mt grande!\n");
 }
 void getChar(){ //le o prox char e atualiza a sua classe
     nextChar=getc(in_fp);
@@ -132,35 +133,32 @@ void getNonBlank(){ //ignorar espaços em branco
         getChar();
     } 
 }
+void isKeyWord(){
+    if(strcmp(lexeme,"True")==0) nextToken=TRUE_OP;
+    if(strcmp(lexeme,"False")==0) nextToken=FALSE_OP;
+}
 int lex(){
     lexLen=0;
-    getNonBlank();//primeira chamada getchar
+    getNonBlank();
     getNonComments();
-    //printf("char que sera analisado: %c", nextChar);
     switch (charClass)
     {
     case LETTER:
-        addChar();
-        getChar();
+        addAndGetNextChar();
         while(charClass == LETTER || charClass == DIGIT){
-            addChar();
-            getChar();
+            addAndGetNextChar();
         }
         nextToken=IDENT;
         break;
     case DIGIT:
-        addChar();
-        getChar();
+        addAndGetNextChar();
         while (charClass==DIGIT){
-            addChar();
-            getChar();
+            addAndGetNextChar();
         }
         nextToken = INT_LIT;
         break;
     case UNKNOWN:
-    //printf("char no lookup: %c\n", nextChar);
-        if(lookup(nextChar))
-            getChar();
+        lookup(nextChar);
         break;   
     case EOF:
         nextToken=EOF;
@@ -170,10 +168,7 @@ int lex(){
         lexeme[3]=0;
         break;
     }
-    if(strcmp(lexeme,"True")==0)
-        nextToken = TRUE_OP;
-    if(strcmp(lexeme,"False")==0)
-        nextToken = FALSE_OP;
+    isKeyWord();//verifica se o lexema da vez eh o operador True or False
     if(nextToken==UNKNOW_TOKEN)
         printf("Lexema: %s nao reconhecido\n", lexeme);
     else
@@ -181,7 +176,6 @@ int lex(){
     return nextToken;
 }
 void getNonComments(){
-    //ignorar comentarios
         if(nextChar=='/'){
         char next =getc(in_fp);
         if(next=='/'){
