@@ -2,7 +2,6 @@
 #include<stdlib.h>
 #include <string.h>
 #include<ctype.h>
-
 int charClass; 
 char lexeme [100]; 
 char nextChar; 
